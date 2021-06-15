@@ -1,0 +1,58 @@
+.card-doc{
+    border: 2px solid #cccccc !important;
+    border-radius: 1px !important;
+    font-family: 'Roboto', sans-serif;
+    padding: 0.5em;
+    height: 60vh; 
+    width: 60%; 
+    display: flex;
+    flex-direction: column;
+
+}
+
+.docHeading{
+    flex: 3;
+    padding: 1.5em;
+    border: 1px solid #000;
+    border-bottom-width: 0px;
+}
+
+.uploadArea{
+    flex: 1;
+    display: flex;
+    border: 1px solid #000;
+    border-top-width: 0px;
+    justify-content: center;
+    padding: 2em;
+    padding-top: 0em;
+}
+
+.uploadDeetsArea{
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25em;
+    padding-bottom: 0em;
+    border: 1px solid #000;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.buttonArea{
+    flex: 1;
+    /* display: inline-block; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.docButtons{
+    width: 30%;
+}
+
+input[type="file"] {
+    font-size: 1.25em;
+    color: #b8b8b8;
+    width: 33%;
+}

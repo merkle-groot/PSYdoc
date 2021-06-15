@@ -6,20 +6,7 @@
     align-items: center;
 }
 
-.card{
-    border: 2px solid #cccccc !important;
-    border-radius: 1px !important;
-    font-family: 'Roboto', sans-serif;
-    padding: 20px;
-    height: 60vh; 
-    width: 60%; 
-    /* margin: 20px; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.artistName{
+/* .artistName{
     font-family: 'Roboto', sans-serif;
     padding-top: 30px;
     font-size: 25px;
@@ -34,4 +21,4 @@
     height: 150px;  
     border-radius: 10px;
     border-width: 5px;
-}
+} */

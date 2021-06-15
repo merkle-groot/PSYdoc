@@ -1,0 +1,90 @@
+.card{
+    border: 2px solid #cccccc !important;
+    border-radius: 1px !important;
+    font-family: 'Roboto', sans-serif;
+    padding: 0.5em;
+    height: 60vh; 
+    width: 60%; 
+    display: flex;
+    flex-direction: row;
+
+}
+
+.leftText{
+    flex: 2;
+    height: 100%;
+    border: 1px solid #000;
+    margin-right: 0.5em;
+    display: flex;
+    align-items:stretch;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.heading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: flex-start;
+    background-color: purple;
+    flex: 1;
+}
+
+.mintHeading{
+    padding: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 2;
+    /* background-color: red; */
+}
+
+.or{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 1.5em;
+    /* background-color: royalblue; */
+}
+
+.signHeading{
+    padding: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 2;
+    /* background-color: saddlebrown; */
+}
+
+.rightImage{
+    flex: 1;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #000;
+    
+}
+
+.psy-image{
+    height: 80%;
+    width: auto;
+}
+
+.button-block{
+    width: 100%;
+}
+
+.display-3{
+    font-size: 2.25em !important;
+    font-weight: 500 !important;
+}
+
+.lead{
+    font-size: 1em !important;
+    font-weight: 50 !important;
+    font-weight: lighter;
+}

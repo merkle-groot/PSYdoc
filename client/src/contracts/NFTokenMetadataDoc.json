@@ -31817,9 +31817,23 @@
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "1337": {
+      "events": {},
+      "links": {},
+      "address": "0x0d690bC0FC5123d328634eA333e3e36F9B06Fcc6",
+      "transactionHash": "0x4b0ea09e8db8357a3d4cfb5a438d91663cb058745be4f351d22ae2d742d9dfb0"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x21511a3A94a8f6407fF11CA10B79B01D8b985967",
+      "transactionHash": "0xc5b378f474f7b8b5bd6045ceaa5a784c0e25e7f7555eea9242a632d46bc01366"
+    }
+  },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-13T19:01:32.034Z",
+  "updatedAt": "2021-06-14T17:17:33.598Z",
+  "networkType": "ethereum",
   "devdoc": {
     "details": "This is an example contract implementation of NFToken with metadata extension.",
     "methods": {
