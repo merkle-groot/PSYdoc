@@ -56,3 +56,40 @@ input[type="file"] {
     color: #b8b8b8;
     width: 33%;
 }
+
+.loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uploadArea-success{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    border-top: 0px;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+    padding-top: 0em;
+    margin-bottom: 0.5em;
+}
+
+.uploadDeetsArea-success{
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25em;
+    padding-top: 0em;
+    border: 1px solid #000;
+    border-top: 0px;
+    border-bottom: 0px;
+    /* margin-bottom: 0.5em; */
+}
+
+.success-gif{
+    height: 200px;
+    border-radius: 1em;
+}

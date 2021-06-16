@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../images/logo.png';
 import {Link} from 'react-router-dom';
 import "./Navigation.css";
@@ -7,7 +7,7 @@ const Navigation = (props) => {
     return (
         <nav className = "nav">
             <div className="logo-image">
-                <img clasName="logo" src={logo} alt="logo"/>
+                <img className="logo" src={logo} alt="logo"/>
             </div>
             <div className="nav-bar">
                 <ul className="nav-links">

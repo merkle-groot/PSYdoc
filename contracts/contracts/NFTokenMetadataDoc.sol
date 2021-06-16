@@ -434,6 +434,7 @@ contract NFToken is
     * @dev A mapping from NFT ID to the address that owns it.
     */
     mapping (uint256 => address) internal idToOwner;
+    
 
     /**
     * @dev Mapping from NFT ID to approved address.
@@ -893,8 +894,8 @@ contract NFToken is
     * @dev Whitelists addresses for signing the NFT
     * @param _tokenId ID of the NFT
     */
-    function setInvitees(uint256 _tokenId) external canOperate(_tokenId) validNFToken(_tokenId){
-        invitees[_tokenId].push(msg.sender);
+    function setInvitees(uint256 _tokenId, address _address) external canOperate(_tokenId) validNFToken(_tokenId){
+        invitees[_tokenId].push(_address);
     }
 
     /**
@@ -1037,13 +1038,14 @@ contract NFTokenMetadata is NFToken, ERC721Metadata {
  * @dev This is an example contract implementation of NFToken with metadata extension.
  */
 contract NFTokenMetadataDoc is NFTokenMetadata{
+    
+    uint256 tokenId = 0;
 
     /**
     * @dev Contract constructor.
     * @param _name A descriptive name for a collection of NFTs.
     * @param _symbol An abbreviated name for NFTokens.
     */
-    
     constructor(string memory _name, string memory _symbol) public {
         nftName = _name;
         nftSymbol = _symbol;
@@ -1052,12 +1054,12 @@ contract NFTokenMetadataDoc is NFTokenMetadata{
     /**
     * @dev Mints a new NFT.
     * @param _to The address that will own the minted NFT.
-    * @param _tokenId of the NFT to be minted by the msg.sender.
     * @param _uri String representing RFC 3986 URI.
     */
-    function mint( address _to, uint256 _tokenId, string calldata _uri) external {
-        super._mint(_to, _tokenId);
-        super._setTokenUri(_tokenId, _uri);
+    function mint( address _to, string calldata _uri) external {
+        super._mint(_to, tokenId);
+        super._setTokenUri(tokenId, _uri);
+        tokenId++;
     }
 
     /**
