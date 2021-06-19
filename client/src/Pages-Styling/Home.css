@@ -1,6 +1,7 @@
 .dashboard{
     display: flex;
     flex: 1;
+    height: 60vh;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;

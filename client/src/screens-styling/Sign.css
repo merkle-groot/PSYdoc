@@ -1,0 +1,60 @@
+.card-docSign{
+    border: 2px solid #cccccc !important;
+    border-radius: 1px !important;
+    font-family: 'Roboto', sans-serif;
+    padding: 0.5em;
+    height: 66vh; 
+    width: 60%; 
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="file"] {
+    font-size: inherit;
+    color: inherit;
+    width: inherit;
+}
+
+.docHeadingSign{
+    flex:1;
+    padding: 1.5em;
+    border: 1px solid #000;
+    border-bottom-width: 0px;
+}
+
+.uploadAreaSign{
+    flex: 2;
+    display: flex;
+    border: 1px solid #000;
+    border-top-width: 0px;
+    justify-content: center;
+    padding: 2em;
+    padding-top: 0em;
+}
+
+div.form-group{
+    padding: 0.5em;
+}
+
+.inputForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.hashes p{
+    margin: 0.25px;
+}
+
+.uploadDeetsAreaSign{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1.25em;
+    padding-bottom: 0em;
+    border: 1px solid #000;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+

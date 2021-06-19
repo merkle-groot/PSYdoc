@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { useStoreApi } from "../context/storeApi";
-
-import Temp from '../screens/Temp';
-import useWeb3 from "../context/useWeb3";
 import ERC721Contract from "../contracts/NFTokenMetadataDoc.json"; 
-import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Label} from 'reactstrap';
 import "../Pages-Styling/Dashboard.css"
 import Web3 from "web3";
 
@@ -17,9 +13,10 @@ const Dashboard = () => {
 	const [address, setAddress] = useState(null);
 	const [tokenIds, setTokenIds] = useState([]);
 	const [tokenHash, setTokenHash] = useState(null); 
-
+	const [inviteeAddress, setInviteeAddress] = useState("");
 	const [lastClicked, setLastClicked] = useState(null);
-
+	const [tokenInvitees, setTokenInvitees] = useState([]);
+	const [tokenSignees, setTokenSignees] = useState([])
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -112,13 +109,34 @@ const Dashboard = () => {
 		let clicked = (e.target.innerHTML).slice(10)
 		setLastClicked(clicked);
 		console.log(clicked);
-		getTokenDetails();
+		getTokenDetails(clicked);
 	}
 
-	const getTokenDetails = async() => {
-		const res = await contract.methods.tokenURI(lastClicked).call();
+	const getTokenDetails = async(clicked) => {
+		const res = await contract.methods.tokenURI(clicked).call();
 		console.log(res);
 		setTokenHash(res);
+
+		const invitees = await contract.methods.returnInvitees(clicked).call();
+		console.log(invitees);
+		setTokenInvitees(invitees);
+
+		const signees = await contract.methods.returnSignees(clicked).call();
+		console.log(signees);
+		setTokenSignees(signees);
+
+	}
+
+	const handleSubmission = async() => {
+		console.log(contract.methods);
+		console.log(lastClicked);
+		console.log(inviteeAddress);
+		console.log(address);
+		const res = await contract.methods.setInvitees(lastClicked, inviteeAddress).send({
+			from: address
+		});
+		console.log(res);
+		getTokenDetails(lastClicked);
 	}
 
   	return (
@@ -138,7 +156,7 @@ const Dashboard = () => {
 				<div className="docNumber"> 
 					<p>You have minted {noOfMinted} documents so far.</p>
 					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
-						<DropdownToggle caret>
+						<DropdownToggle caret color="primary" >
 							Select the Token ID
 						</DropdownToggle>
 						<DropdownMenu>
@@ -151,25 +169,57 @@ const Dashboard = () => {
 
 				<div className="docDetails"> 
 					{lastClicked? (
-						<div className="card-mini">
-							<div>
-								<p>Token ID: {lastClicked}</p>
+						<div className="cardMini">
+							<div className="tokenID">
+								<p>#{lastClicked}</p>
 							</div>
 
-							<div>
-								<p>Document Hash: {tokenHash}</p>
+							<div clasName="tokenHash">
+								<p>Hash: {tokenHash}</p>
 							</div>
+
+							<div className="inviteeSignee">
+								<div className="inviteesTable">
+									<div className="tableHeading">
+										<h5>Invited Addresses</h5>
+									</div>
+
+									<div className="tableRows">
+										{tokenInvitees.map(inviteesIDX =>
+											<div className="indAddress">{inviteesIDX } </div>
+										)}
+									</div>
+								</div>
+
+		
+								<div className="signeesTable">
+									<div className="tableHeading">
+										<h5>Signed Addresses</h5>
+									</div>
+									<div className="tableRows">
+										{tokenSignees.map(signeesIDX =>
+											<div className="indAddress">{signeesIDX}</div>
+										)}
+									</div>
+								</div>
+							</div>
+
 						</div>	
 					):
 					(	
-						<div>
+						<div className="placeholderText">
 							<p>Select a token to show it's details</p>
 						</div>
 					)}
 				</div>
 
-				<div className="buttonArea"> 
-					
+				<div className="buttonAreaDashboard"> 
+					<hr className="my-2" />
+					<p className="addressLabel">Invite an address to sign the NFT</p>
+					<div className = "inputSubmit">
+						<Input value={inviteeAddress} onChange={(e)=> setInviteeAddress(e.target.value)} />
+						<Button size="md" color="primary" className="docButtons" onClick={()=>handleSubmission()}>Invite</Button>
+					</div>
 				</div>
 			</div>
         </div>

@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    
 }
 
 .card-doc{
@@ -11,7 +12,7 @@
     border-radius: 1px !important;
     font-family: 'Roboto', sans-serif;
     padding: 0.5em;
-    height: 60vh; 
+    height: 65vh; 
     width: 60%; 
     display: flex;
     flex-direction: column;
@@ -41,25 +42,103 @@
 }
 
 .docDetails{
-    flex: 6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 5;
     padding: 1.25em;
     padding-bottom: 0em;
     border: 1px solid #000;
     margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    /* margin-bottom: 0.5em; */
+    border-bottom: 0px;
 }
 
-.buttonArea{
-    flex: 1;
-    /* display: inline-block; */
+.placeholder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardMini{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.tokenID{
+    font-size: 2em;
+}
+.tokenHash{
+    font-size: 0.4em;
+    margin-bottom: 1.5em;
+}
+
+.tokenID p{
+    margin-bottom: 0px;
+}
+
+.inviteeSignee{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1.25em;
+}
+
+.tableHeading{
+    font-size: 1.35em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.indAddress{
+    font-size: 0.9em;
+}
+
+.inviteesTable{
+    flex: 1;
+    border-right: 0.5px solid #000;
+}
+
+.tableRows{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signeesTable{
+    flex: 1;
+}
+
+
+
+.buttonAreaDashboard{
+    flex: 3;
+    /* display: inline-block; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #000;
+    border-top: 0px;
+}
+
+.inputSubmit{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+
+.inputSubmit > Input {
+    width: 70%;
 }
 
 .docButtons{
-    width: 30%;
+    width: 20%;
+}
+
+.addressLabel {
+    margin-top: 0.5em;
+    margin-left: 5%;
+    font-size: 1em;
 }

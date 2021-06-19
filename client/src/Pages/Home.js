@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import Steps from '../screens/Steps';
 import Doc from '../screens/Doc';
 import Success from '../screens/Success';
+import SuccessSign from '../screens/SuccessSign';
 import Sign from '../screens/Sign';
 import "../Pages-Styling/Home.css";
 
@@ -50,6 +51,13 @@ function Home(){
                 <Success beforeScreen={beforeScreen}/>
             </div>
         )
+    else if(currentScreen === 3 && ifMintFlow ==0){
+        return(
+            <div>
+                <SuccessSign beforeScreen={beforeScreen}/>
+            </div>
+        )
+    }
 }
 
 export default Home;
