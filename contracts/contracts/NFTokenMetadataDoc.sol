@@ -461,6 +461,9 @@ contract NFToken is
     */
     mapping(uint256 => address[]) public signees;
 
+    mapping(address => uint256[]) public userOwnedTokens;
+    mapping(uint256 => uint256) public tokenIsAtIndex;
+
     /**
     * @dev Emits when ownership of any NFT changes by any mechanism. This event emits when NFTs are
     * created (`from` == 0) and destroyed (`to` == 0). Exception: during contract creation, any
@@ -806,6 +809,8 @@ contract NFToken is
     )
         internal
     {
+        uint256 tokenIndex = tokenIsAtIndex[_tokenId];
+        userOwnedTokens[_from][tokenIndex] = 0;
         require(idToOwner[_tokenId] == _from);
         ownerToNFTokenCount[_from] = ownerToNFTokenCount[_from] - 1;
         delete idToOwner[_tokenId];
@@ -824,7 +829,9 @@ contract NFToken is
         internal
     {
         require(idToOwner[_tokenId] == address(0));
-
+        userOwnedTokens[_to].push(_tokenId);
+        uint256 arrayLength = userOwnedTokens[_to].length;
+        tokenIsAtIndex[_tokenId] = arrayLength;
         idToOwner[_tokenId] = _to;
         ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
     }
@@ -910,6 +917,14 @@ contract NFToken is
         invitees[_tokenId][_index] = invitees[_tokenId][invitees[_tokenId].length -1];
         invitees[_tokenId].length--;
         signees[_tokenId].push(signeeAddress);
+    }
+    
+    function returnInvitees(uint256 _tokenId) public view returns(address[] memory) {
+        return invitees[_tokenId];
+    }
+    
+    function returnSignees(uint256 _tokenId) public view returns(address[] memory) {
+        return signees[_tokenId];
     }
 
 }
@@ -1039,7 +1054,7 @@ contract NFTokenMetadata is NFToken, ERC721Metadata {
  */
 contract NFTokenMetadataDoc is NFTokenMetadata{
     
-    uint256 tokenId = 0;
+    uint256 private tokenId = 1;
 
     /**
     * @dev Contract constructor.

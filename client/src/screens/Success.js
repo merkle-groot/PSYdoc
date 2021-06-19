@@ -1,5 +1,6 @@
 import React from 'react';
 import {Jumbotron, Button } from 'reactstrap';
+import {Link} from 'react-router-dom';
 import celebrate from "../images/success.gif";
 import "../screens-styling/Doc.css";
   
@@ -20,7 +21,9 @@ const Success = (props) => {
 
 			<div className="uploadArea-success">
 				<h4>You can now invite people to sign your document</h4>
-				<Button outline size="lg" color="success" className="docButtons">Invite!</Button>
+				<Button outline size="lg" color="success" className="docButtons">
+					<Link to ="/dashboard">Invite!</Link>
+				</Button>
 			</div>
 				
 			

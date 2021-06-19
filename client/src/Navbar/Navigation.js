@@ -15,13 +15,17 @@ const Navigation = (props) => {
                         <li>Home</li>
                     </Link>
                     
-                    <Link to="/about" className="nav-ind">
-                        <li>About</li>
+                    <Link to="/dashboard" className="nav-ind">
+                        <li>Your Docs</li>
                     </Link>  
 
-                    <Link to="/login" className="nav-ind"> 
-                        <li>Login</li>
+                    <Link to="/minted" className="nav-ind"> 
+                        <li>Minted Docs</li>
                     </Link>     
+
+                    <Link to="/about" className="nav-ind"> 
+                        <li>About</li>
+                    </Link> 
                 </ul>
             </div>
         </nav>

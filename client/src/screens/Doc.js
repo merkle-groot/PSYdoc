@@ -97,6 +97,7 @@ const Doc = (props) => {
 				{
 					from: address
 				}
+				
 			) 
 			console.log(res);
 			console.log(res.events["Transfer"]["returnValues"][2]);
