@@ -11,7 +11,7 @@ const Sign = (props) => {
   	const [hashedFile, setHashedFile] = useState('');
 	const [disabled, setDisabled] = useState(true);
     const [inputID, setInputID] = useState(null);
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [web3, setWeb3] = useState(null);
 	const [contract, setContract] = useState(null);
 	const [address, setAddress] = useState(null);
@@ -20,12 +20,14 @@ const Sign = (props) => {
 
 
 	useEffect(()=>{
+		// setIsLoading(true);
 		async function initWeb3(){
 			let web3Instance = await getWeb3();
 			let addressTemp = await getUserAccount(web3Instance);
 			await getContract(web3Instance, addressTemp);
 		}
 		initWeb3();
+		setIsLoading(false);
 	},[])
 
 	const getWeb3 = async () => {
@@ -107,6 +109,7 @@ const Sign = (props) => {
 	};
 
 	const changeHandler = e => {
+		setIsLoading(true);
 		console.log(e.target.files[0]);
 
 		let file = e.target.files[0];
@@ -124,29 +127,38 @@ const Sign = (props) => {
 		.catch(err => {
 			console.log(err);
 		});
+
+		setIsLoading(false);
   	};
 
     const verifySign= async(e)=>{
-        e.preventDefault();
-        if(inputID === null || hashedFile === ''){
-            alert("Invalid Input");
-            return;
-        }
-        const res = await contract.methods.tokenURI(inputID).call();
-        setTokenHash(res);  
+		e.preventDefault();
+		setIsLoading(true);
+		try{
+			if(inputID === null || hashedFile === ''){
+				alert("Invalid Input");
+				return;
+			}
+			const res = await contract.methods.tokenURI(inputID).call();
+			setTokenHash(res);  
 
-        if(res == hashedFile){
-            setIsSame(true);
-            setDisabled(false);
-        } else {
-            setIsSame(false);
-            setDisabled(true);
-        }
-		console.log(res);
+			if(res === hashedFile){
+				setIsSame(true);
+				setDisabled(false);
+			} else {
+				setIsSame(false);
+				setDisabled(true);
+			}
+			console.log(res);
+		} catch(e){
+			console.error(e);
+		}
+		setIsLoading(false);
     }
 
-    const handleSubmission = async(e) => {
+    const handleSubmission = async() => {
         try{
+			setIsLoading(true);
             const invitees = await contract.methods.returnInvitees(inputID).call();
 		    console.log(invitees);
 
@@ -155,71 +167,88 @@ const Sign = (props) => {
             const res = await contract.methods.sign(inputID, index).send({
                 from: address
             });
+			setIsLoading(false);
+			props.nextScreen();
             
-        } catch(error){
+        } catch{
             alert("You haven't been invited to sign the document.");
-            console.error(error);
+            // console.error(error);
         }
+		setIsLoading(false);
     }
 
-    return (
-        <div className="card-docSign">
-            <div className="docHeadingSign">
-                <Jumbotron>
-                    <h1 className="display-3">SIGN THE DOC!</h1>
-                    <p className="lead">Verify that the hash of the document matches with your copy of the document.</p>
-                    <hr className="my-2" />
-                </Jumbotron>
-            </div>
+	if(isLoading){
+		return(
+			<div className="dashboard">
+				<div className="card-doc loader">
+					<h3>Loading...</h3>
+					<Spinner style={{ width: '3rem', height: '3rem' }} />
+				</div>
+			</div>
+		);
+	}
 
-            <div className="uploadAreaSign">
-                <Form onSubmit={(e)=>verifySign(e)}>
-                    <FormGroup>
-                        <Label for="TokenId">Token ID</Label>
-                        <Input type="number" min="1" value={inputID} onChange={(e)=>setInputID(e.target.value)} name="tokenId" id="TokenId" placeholder="with a placeholder" />
-                    </FormGroup>
-                    <FormGroup className="inputForm">
-                        <Label for="exampleFile">File</Label>
-                        <Input type="file" onChange={changeHandler}/>
-                        <FormText color="muted">
-                            This is some placeholder block-level help text for the above input.
-                            It's a bit lighter and easily wraps to a new line.
-                        </FormText>
-                    </FormGroup>
-                    <FormGroup>
-                        <Button className="verifySign" onClick={(e)=>{verifySign(e)}}>Verify</Button>
-                    </FormGroup>              
-                </Form>
-                
-            </div>
-            
-            <div className ="uploadDeetsAreaSign">
-                <div className="hashes">
-                    <Table hover>
-                        <tbody>
-                            <tr>
-                                <td>Minted Token's Hash:</td>
-                                <td>{tokenHash}</td>
-                            </tr>
-                            <tr>
-                                <td>Your Document's Hash:</td>
-                                <td>{hashedFile}</td>
-                            </tr>
-                            <tr>
-                                <td>Result:</td>
-                                <td>{isSame? ("Perfect Match!"):("Hashes dont match")}</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </div>
-            </div>
+	else {
+		return (
+			<div className="card-docSign">
+				<div className="docHeadingSign">
+					<Jumbotron>
+						<h1 className="display-3">SIGN THE DOC!</h1>
+						<p className="lead">Verify that the hash of the document matches with your copy of the document.</p>
+						<hr className="my-2" />
+					</Jumbotron>
+				</div>
 
-            <div className="buttonArea">
-                <Button outline  size="lg"  color="primary" className="docButtons" onClick={()=> goBack()}>Previous</Button>
-                <Button outline  size="lg" color="primary" className="docButtons" disabled={disabled} onClick={()=>handleSubmission()}>Sign It!</Button>
-            </div>
-		</div>
-    );
+				<div className="uploadAreaSign">
+					<Form onSubmit={(e)=>verifySign(e)}>
+						<FormGroup>
+							<Label for="TokenId">Token ID</Label>
+							<Input type="number" min="1" value={inputID} onChange={(e)=>setInputID(e.target.value)} name="tokenId" id="TokenId" placeholder="with a placeholder" />
+						</FormGroup>
+						<FormGroup className="inputForm">
+							<Label for="exampleFile">File</Label>
+							<Input type="file" onChange={changeHandler}/>
+							<FormText color="muted">
+								This is some placeholder block-level help text for the above input.
+								It's a bit lighter and easily wraps to a new line.
+							</FormText>
+						</FormGroup>
+						<FormGroup>
+							<Button className="verifySign" onClick={(e)=>{verifySign(e)}}>Verify</Button>
+						</FormGroup>              
+					</Form>
+					
+				</div>
+				
+				<div className ="uploadDeetsAreaSign">
+					<div className="hashes">
+						<Table hover>
+							<tbody>
+								<tr>
+									<td>Minted Token's Hash:</td>
+									<td>{tokenHash}</td>
+								</tr>
+								<tr>
+									<td>Your Document's Hash:</td>
+									<td>{tokenHash?hashedFile:""}</td>
+								</tr>
+								<tr>
+									<td>Result:</td>
+									<td>{tokenHash?(isSame?('Perfect Match!'):("Hashes don't match")):("Upload the file and click on Verify.")}</td>
+									{/* <td>{isSame? ("Perfect Match!"):("Hashes dont match")}</td> */}
+								</tr>
+							</tbody>
+						</Table>
+					</div>
+				</div>
+
+				<div className="buttonArea">
+					<Button outline  size="lg"  color="primary" className="docButtons" onClick={()=> goBack()}>Previous</Button>
+					<Button outline  size="lg" color="primary" className="docButtons" disabled={disabled} onClick={()=>handleSubmission()}>Sign It!</Button>
+				</div>
+			</div>
+		);
+	}
 };
   
 export default Sign;

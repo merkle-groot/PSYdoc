@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ERC721Contract from "../contracts/NFTokenMetadataDoc.json"; 
-import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Label} from 'reactstrap';
+import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Spinner} from 'reactstrap';
 import "../Pages-Styling/Dashboard.css"
 import Web3 from "web3";
 
@@ -18,6 +18,8 @@ const Dashboard = () => {
 	const [tokenInvitees, setTokenInvitees] = useState([]);
 	const [tokenSignees, setTokenSignees] = useState([])
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+	const [disabled, setIsDisabled] = useState(true);
 
 	const toggle = () => setDropdownOpen(prevState => !prevState);
   	// let web3 = useWeb3();
@@ -27,6 +29,7 @@ const Dashboard = () => {
 			let web3Instance = await getWeb3();
 			let addressTemp = await getUserAccount(web3Instance);
 			await getData(web3Instance, addressTemp);
+			setIsLoading(false);
 		}
 		initWeb3();
 	},[])
@@ -77,32 +80,36 @@ const Dashboard = () => {
 	};
 
 	const getData = async (web3Instance,addressTemp) =>{
-		console.log(1,"getData");
-		// await getUserAccount();
-		console.log(ERC721Contract.networks[1337]["address"]);
-		console.log(addressTemp);
-		const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[1337]["address"]); 
-		const res = await contractInstance.methods.balanceOf(addressTemp).call();
-		setNoOfMinted(res);
-		
-		let iter = 0;
-		let arr = [];
-		while(arr.length < res){
-			const idx = await contractInstance.methods.userOwnedTokens(addressTemp, iter).call(); // THIS WILL RETURN AN ARRAY OF TOKEN IDs
+		try{
+			console.log(1,"getData");
+			// await getUserAccount();
+			console.log(ERC721Contract.networks[1337]["address"]);
+			console.log(addressTemp);
+			const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[1337]["address"]); 
+			const res = await contractInstance.methods.balanceOf(addressTemp).call();
+			setNoOfMinted(res);
 			
-			if(idx != 0){
-				arr.push(idx);
+			let iter = 0;
+			let arr = [];
+			while(arr.length < res){
+				const idx = await contractInstance.methods.userOwnedTokens(addressTemp, iter).call(); // THIS WILL RETURN AN ARRAY OF TOKEN IDs
+				
+				if(idx !== 0){
+					arr.push(idx);
+				}
+
+				iter++;
 			}
 
-			iter++;
+			setTokenIds(arr);
+			
+			console.log(JSON.stringify(arr));
+			console.log(2,"getData");
+			// setNoOfMinted(res);
+			setContract(contractInstance);
+		} catch(e){
+			console.error(e);
 		}
-
-		setTokenIds(arr);
-		
-		console.log(JSON.stringify(arr));
-		console.log(2,"getData");
-		// setNoOfMinted(res);
-		setContract(contractInstance);
 	}
 
 	const handleDropClick= (e, tokenIdx)=>{
@@ -110,120 +117,163 @@ const Dashboard = () => {
 		setLastClicked(clicked);
 		console.log(clicked);
 		getTokenDetails(clicked);
+		setIsDisabled(false);
 	}
 
 	const getTokenDetails = async(clicked) => {
-		const res = await contract.methods.tokenURI(clicked).call();
-		console.log(res);
-		setTokenHash(res);
+		try{
+			setIsLoading(true);
+			const res = await contract.methods.tokenURI(clicked).call();
+			console.log(res);
+			setTokenHash(res);
 
-		const invitees = await contract.methods.returnInvitees(clicked).call();
-		console.log(invitees);
-		setTokenInvitees(invitees);
+			const invitees = await contract.methods.returnInvitees(clicked).call();
+			console.log(invitees);
+			setTokenInvitees(invitees);
 
-		const signees = await contract.methods.returnSignees(clicked).call();
-		console.log(signees);
-		setTokenSignees(signees);
-
+			const signees = await contract.methods.returnSignees(clicked).call();
+			console.log(signees);
+			setTokenSignees(signees);
+		} catch(e){
+			alert("wrong input")
+			console.error(e);
+		}
+		setIsLoading(false);
 	}
 
 	const handleSubmission = async() => {
-		console.log(contract.methods);
-		console.log(lastClicked);
-		console.log(inviteeAddress);
-		console.log(address);
-		const res = await contract.methods.setInvitees(lastClicked, inviteeAddress).send({
-			from: address
-		});
-		console.log(res);
-		getTokenDetails(lastClicked);
+		if((inviteeAddress.length !== 42) || (inviteeAddress.slice(0,2) !== '0x')){
+			console.log(inviteeAddress.length, inviteeAddress.slice(0,2));
+			alert('Invalid address!');
+			return;
+		}
+		try{
+			setIsLoading(true);
+			console.log(contract.methods);
+			console.log(lastClicked);
+			console.log(inviteeAddress);
+			console.log(address);
+			const res = await contract.methods.setInvitees(lastClicked, inviteeAddress).send({
+				from: address
+			});
+			console.log(res);
+			getTokenDetails(lastClicked);
+		} catch(e){
+			alert('Invalid address!');
+			console.error(e);
+		}
+		setInviteeAddress('');
+		setIsLoading(false);
 	}
 
-  	return (
-    	<div className="dashboard">
-            <div className="card-doc">
-				<div className="docHeadingDashboard">
-					<Jumbotron>
-						<h1 className="display-3">Documents Minted by you</h1>
-						{
-							address? 
-								(<p className="lead">Address: {address}</p>) : 
-								(<Button size="md"  color="primary" className="docButtons" onClick={()=>getData()}>Connect Wallet</Button>)}
+
+	if(isLoading){
+		return (
+			<div className="dashboard">
+				<div className="card-doc loader">
+					<h3>Loading...</h3>
+					<Spinner style={{ width: '3rem', height: '3rem' }} />
+				</div>
+			</div>
+		)
+	}
+
+	else{ 
+		return (
+			<div className="dashboard">
+				<div className="card-doc">
+					<div className="docHeadingDashboard">
+						<Jumbotron>
+							<h1 className="display-3">Documents Minted by you</h1>
+							{
+								address? 
+									(<p className="lead">Address: {address}</p>) : 
+									(<Button size="md"  color="primary" className="docButtons" onClick={()=>getData()}>Connect Wallet</Button>)}
+							<hr className="my-2" />
+						</Jumbotron>
+					</div>
+
+					<div className="docNumber"> 
+						<p>You have minted {noOfMinted} documents so far.</p>
+						<Dropdown isOpen={dropdownOpen} toggle={toggle}>
+							<DropdownToggle caret color="primary" >
+								Select the Token ID
+							</DropdownToggle>
+							<DropdownMenu>
+								{tokenIds.map((tokenIdx) => (
+									<DropdownItem onClick={(e, tokenIdx) => handleDropClick(e,tokenIdx)}>Token ID: {tokenIdx}</DropdownItem>
+								))}
+							</DropdownMenu>
+						</Dropdown>
+					</div>
+
+					<div className="docDetails"> 
+						{lastClicked? (
+							<div className="cardMini">
+								<div className="tokenID">
+									<p>#{lastClicked}</p>
+								</div>
+
+								<div clasName="tokenHash">
+									<p>Hash: {tokenHash}</p>
+								</div>
+
+								<div className="inviteeSignee">
+									<div className="inviteesTable">
+										<div className="tableHeading">
+											<h5>Invited Addresses</h5>
+										</div>
+
+										<div className="tableRows">
+											{(tokenInvitees.length===0)?("None"):
+												(tokenInvitees.map(inviteesIDX => 
+													<div className="indAddress">{inviteesIDX } </div>))}
+											{/* {(tokenInvitees==[])?("None"): */}
+												{/* ({tokenInvitees.map(inviteesIDX => */}
+													{/* <div className="indAddress">{inviteesIDX } </div> */}
+												{/* }) */}
+											{/* } */} 
+											
+										</div>
+									</div>
+
+			
+									<div className="signeesTable">
+										<div className="tableHeading">
+											<h5>Signed Addresses</h5>
+										</div>
+										<div className="tableRows">
+											{(tokenSignees.length===0)?("None"):
+													(tokenSignees.map(signeesIDX => 
+														<div className="indAddress">{signeesIDX} </div>))}
+											{/* {tokenSignees.map(signeesIDX =>
+												<div className="indAddress">{signeesIDX}</div>
+											)} */}
+										</div>
+									</div>
+								</div>
+
+							</div>	
+						):
+						(	
+							<div className="placeholderText">
+								<p>Select a token to show it's details</p>
+							</div>
+						)}
+					</div>
+
+					<div className="buttonAreaDashboard"> 
 						<hr className="my-2" />
-					</Jumbotron>
-				</div>
-
-				<div className="docNumber"> 
-					<p>You have minted {noOfMinted} documents so far.</p>
-					<Dropdown isOpen={dropdownOpen} toggle={toggle}>
-						<DropdownToggle caret color="primary" >
-							Select the Token ID
-						</DropdownToggle>
-						<DropdownMenu>
-							{tokenIds.map((tokenIdx) => (
-								<DropdownItem onClick={(e, tokenIdx) => handleDropClick(e,tokenIdx)}>Token ID: {tokenIdx}</DropdownItem>
-							))}
-						</DropdownMenu>
-					</Dropdown>
-				</div>
-
-				<div className="docDetails"> 
-					{lastClicked? (
-						<div className="cardMini">
-							<div className="tokenID">
-								<p>#{lastClicked}</p>
-							</div>
-
-							<div clasName="tokenHash">
-								<p>Hash: {tokenHash}</p>
-							</div>
-
-							<div className="inviteeSignee">
-								<div className="inviteesTable">
-									<div className="tableHeading">
-										<h5>Invited Addresses</h5>
-									</div>
-
-									<div className="tableRows">
-										{tokenInvitees.map(inviteesIDX =>
-											<div className="indAddress">{inviteesIDX } </div>
-										)}
-									</div>
-								</div>
-
-		
-								<div className="signeesTable">
-									<div className="tableHeading">
-										<h5>Signed Addresses</h5>
-									</div>
-									<div className="tableRows">
-										{tokenSignees.map(signeesIDX =>
-											<div className="indAddress">{signeesIDX}</div>
-										)}
-									</div>
-								</div>
-							</div>
-
-						</div>	
-					):
-					(	
-						<div className="placeholderText">
-							<p>Select a token to show it's details</p>
+						<p className="addressLabel">Invite an address to sign the NFT</p>
+						<div className = "inputSubmit">
+							<Input value={inviteeAddress} onChange={(e)=> setInviteeAddress(e.target.value)} />
+							<Button size="md" color="primary" className="docButtons" disabled={disabled} onClick={()=>handleSubmission()}>Invite</Button>
 						</div>
-					)}
-				</div>
-
-				<div className="buttonAreaDashboard"> 
-					<hr className="my-2" />
-					<p className="addressLabel">Invite an address to sign the NFT</p>
-					<div className = "inputSubmit">
-						<Input value={inviteeAddress} onChange={(e)=> setInviteeAddress(e.target.value)} />
-						<Button size="md" color="primary" className="docButtons" onClick={()=>handleSubmission()}>Invite</Button>
 					</div>
 				</div>
 			</div>
-        </div>
-  	);
+		);
+	}
 };
   
 export default Dashboard;

@@ -33763,12 +33763,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x44d9dfdae208bDEaFa137C81585f91C1451a2E20",
-      "transactionHash": "0x572a4da741486375411d2580e7f1e61fe31c1c51e5ad823afc3e533f0ec8bbb1"
+      "address": "0xEcC8B0aA8d3f6CcC503daC2F924658BeE25B50d0",
+      "transactionHash": "0xb2ec7d30fd7432bfa8ec15098bd47d5fb9bb8dae7d1508302c91ef126404df32"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-19T10:32:40.352Z",
+  "updatedAt": "2021-06-21T10:10:47.639Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "This is an example contract implementation of NFToken with metadata extension.",

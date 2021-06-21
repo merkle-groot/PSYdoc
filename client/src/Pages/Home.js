@@ -36,7 +36,7 @@ function Home(){
     else if(currentScreen === 2 && ifMintFlow === 1)
         return(
             <div className="dashboard">
-                <Doc beforeScreen={beforeScreen} nextScreen={nextScreen}/>
+                <Doc beforeScreen={beforeScreen} nextScreen={nextScreen} setMintFlow={setMintFlow}/>
             </div>
         )
     else if(currentScreen === 2 && ifMintFlow === 0)
@@ -45,19 +45,21 @@ function Home(){
                 <Sign beforeScreen={beforeScreen} nextScreen={nextScreen} setMintFlow={setMintFlow}/>
             </div>
         )
+
+    else if(currentScreen === 3 && ifMintFlow === 0)
+        return(
+            <div className="dashboard">
+                <SuccessSign beforeScreen={beforeScreen}/>
+            </div>
+        )
+    
     else if(currentScreen === 3)
         return(
             <div className="dashboard">
                 <Success beforeScreen={beforeScreen}/>
             </div>
         )
-    else if(currentScreen === 3 && ifMintFlow ==0){
-        return(
-            <div>
-                <SuccessSign beforeScreen={beforeScreen}/>
-            </div>
-        )
-    }
+    
 }
 
 export default Home;

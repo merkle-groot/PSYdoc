@@ -16,7 +16,7 @@ const Success = (props) => {
 			</div>
 
 			<div className ="uploadDeetsArea-success">
-				<img src={celebrate} className="success-gif"/>
+				<img src={celebrate} className="success-gif" alt="gif"/>
 			</div>
 
 			<div className="uploadArea-success">

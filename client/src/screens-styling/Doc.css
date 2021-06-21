@@ -10,6 +10,10 @@
 
 }
 
+.sr-only{
+    display: none;
+}
+
 .docHeading{
     flex: 3;
     padding: 1.5em;

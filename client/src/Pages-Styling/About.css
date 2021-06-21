@@ -1,0 +1,79 @@
+.aboutContainer{
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.card-docAbout{
+    border: 2px solid #cccccc;
+    border-radius: 1px;
+    font-family: 'Roboto', sans-serif;
+    padding: 0.5em;
+    height: 65vh; 
+    width: 60%; 
+    display: flex;
+    flex-direction: column;
+}
+
+.docHeadingAbout{
+    flex: 1;
+    padding-top: 1.5em;
+    padding-left: 1.5em;
+    border: 1px solid #000;
+    border-bottom-width: 0px;
+}
+
+.bulletImage{
+    font-size: 1.2em;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    padding: 1em;
+    justify-content: center;
+    border: 1px solid #000;
+    border-top: 0em;
+}
+
+.aboutText{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    margin-top: 0.4em;
+    padding: 2em;
+    padding-bottom: 1em;
+    flex:5;
+}
+
+.text{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10%;
+    padding-right: 10%;
+    align-items: center;
+    justify-content: center;
+    font-weight: 100;
+}
+
+.imageLinks{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gifImage{
+    margin: 1em;
+    height: 10em;
+    width: 14em;
+    border-radius: 1em;
+}
+
+
+#bold{
+    font-weight: 500;
+}

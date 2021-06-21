@@ -46,7 +46,7 @@ const Steps = (props) => {
 			<div className="rightImage">
 				<img className="psy-image" src={psy} alt="logo" /> 
 			</div>
-			
+
       		{/* <button onCl1ick={()=> props.nextScreen()}>Next</button> */}
     	</div>
   );
