@@ -6,6 +6,7 @@ import Web3 from "web3";
 
   
 const Dashboard = () => {
+	let netId;
 	// const { balance, address, message, setAddress, setBalance } = useStoreApi();
 	const [noOfMinted, setNoOfMinted] = useState(0);
 	const [web3, setWeb3] = useState(null);
@@ -20,7 +21,8 @@ const Dashboard = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [disabled, setIsDisabled] = useState(true);
-
+	const [networkID, setNetworkID] = useState('1337');
+	
 	const toggle = () => setDropdownOpen(prevState => !prevState);
   	// let web3 = useWeb3();
 
@@ -28,14 +30,13 @@ const Dashboard = () => {
 		async function initWeb3(){
 			let web3Instance = await getWeb3();
 			let addressTemp = await getUserAccount(web3Instance);
-			await getData(web3Instance, addressTemp);
+			await getData(web3Instance, addressTemp, netId);
 			setIsLoading(false);
 		}
 		initWeb3();
 	},[])
 
 	const getWeb3 = async () => {
-		console.log(1,"getWeb3");
 		var instance;
 		if (window.ethereum) {
 		  // set up a new provider
@@ -51,14 +52,15 @@ const Dashboard = () => {
 			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
 			instance = new Web3(provider);
 		}
-		console.log(2,"getWeb3");
 		setWeb3(instance);
+		netId = await instance.eth.net.getId()
+		setNetworkID(netId);
+		console.log('getWeb3',instance)
 		return instance;
 	}
 
 	// get user account on button click
 	const getUserAccount = async (web3Instance) => {
-		console.log(1,"getUser");
 		let userAddress;
 		if (window.ethereum) {
 			try {
@@ -75,17 +77,15 @@ const Dashboard = () => {
 			alert("Metamask extensions not detected!");
 		}
 
-		console.log(3,"getUser",userAddress);
 		return userAddress;
 	};
 
-	const getData = async (web3Instance,addressTemp) =>{
+	const getData = async (web3Instance,addressTemp, netId) =>{
 		try{
-			console.log(1,"getData");
 			// await getUserAccount();
-			console.log(ERC721Contract.networks[1337]["address"]);
+			console.log(ERC721Contract.networks[netId]["address"]);
 			console.log(addressTemp);
-			const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[1337]["address"]); 
+			const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[netId]["address"]); 
 			const res = await contractInstance.methods.balanceOf(addressTemp).call();
 			setNoOfMinted(res);
 			
@@ -104,7 +104,6 @@ const Dashboard = () => {
 			setTokenIds(arr);
 			
 			console.log(JSON.stringify(arr));
-			console.log(2,"getData");
 			// setNoOfMinted(res);
 			setContract(contractInstance);
 		} catch(e){
@@ -156,6 +155,7 @@ const Dashboard = () => {
 			const res = await contract.methods.setInvitees(lastClicked, inviteeAddress).send({
 				from: address
 			});
+			console.log(networkID);  
 			console.log(res);
 			getTokenDetails(lastClicked);
 		} catch(e){
@@ -211,10 +211,10 @@ const Dashboard = () => {
 						{lastClicked? (
 							<div className="cardMini">
 								<div className="tokenID">
-									<p>#{lastClicked}</p>
+									<p>Token #{lastClicked}</p>
 								</div>
 
-								<div clasName="tokenHash">
+								<div className="tokenHash">
 									<p>Hash: {tokenHash}</p>
 								</div>
 

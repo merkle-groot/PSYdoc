@@ -7,7 +7,7 @@ const SuccessSign = (props) => {
 
 	const handleSubmission = (e) => {
 		e.preventDefault();
-		props.beforeScreen();
+		props.jumpToMint();
 	}
 
   	return (

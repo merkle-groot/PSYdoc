@@ -1,7 +1,3 @@
-/**
- *Submitted for verification at Etherscan.io on 2018-12-30
-*/
-
 pragma solidity 0.5.16;
 
 /**
@@ -461,7 +457,14 @@ contract NFToken is
     */
     mapping(uint256 => address[]) public signees;
 
+    /**
+     * @dev To keep track of token owned by a userOwnedTokens
+     */
     mapping(address => uint256[]) public userOwnedTokens;
+    
+    /**
+     * @dev To keep track of the index at which the id is stored in userOwnedTokens
+     */
     mapping(uint256 => uint256) public tokenIsAtIndex;
 
     /**
@@ -809,9 +812,11 @@ contract NFToken is
     )
         internal
     {
+        require(idToOwner[_tokenId] == _from);
+        
         uint256 tokenIndex = tokenIsAtIndex[_tokenId];
         userOwnedTokens[_from][tokenIndex] = 0;
-        require(idToOwner[_tokenId] == _from);
+        
         ownerToNFTokenCount[_from] = ownerToNFTokenCount[_from] - 1;
         delete idToOwner[_tokenId];
     }
@@ -829,11 +834,14 @@ contract NFToken is
         internal
     {
         require(idToOwner[_tokenId] == address(0));
+        
         userOwnedTokens[_to].push(_tokenId);
-        uint256 arrayLength = userOwnedTokens[_to].length;
+        uint256 arrayLength = userOwnedTokens[_to].length - 1;
         tokenIsAtIndex[_tokenId] = arrayLength;
+        
         idToOwner[_tokenId] = _to;
         ownerToNFTokenCount[_to] = ownerToNFTokenCount[_to].add(1);
+        signees[_tokenId].push(_to);
     }
 
     /**
@@ -919,10 +927,19 @@ contract NFToken is
         signees[_tokenId].push(signeeAddress);
     }
     
+    
+    /**
+     * @dev Getter function to return the array of invited addresses
+     * @param _tokenId ID of the NFT
+     */
     function returnInvitees(uint256 _tokenId) public view returns(address[] memory) {
         return invitees[_tokenId];
     }
     
+    /**
+     * @dev Getter function to return the array of signed addresses
+     * @param _tokenId ID of the NFT
+     */
     function returnSignees(uint256 _tokenId) public view returns(address[] memory) {
         return signees[_tokenId];
     }

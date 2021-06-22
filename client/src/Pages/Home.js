@@ -27,6 +27,11 @@ function Home(){
         setIfMintFlow(1);
     }
 
+    const jumpToMint = () => {
+        setMintFlow(1);
+        setCurrentScreen(2);
+    }
+
     if(currentScreen === 1)
         return(
             <div className="dashboard">
@@ -49,14 +54,14 @@ function Home(){
     else if(currentScreen === 3 && ifMintFlow === 0)
         return(
             <div className="dashboard">
-                <SuccessSign beforeScreen={beforeScreen}/>
+                <SuccessSign beforeScreen={beforeScreen} jumpToMint={jumpToMint} />
             </div>
         )
     
     else if(currentScreen === 3)
         return(
             <div className="dashboard">
-                <Success beforeScreen={beforeScreen}/>
+                <Success beforeScreen={beforeScreen} />
             </div>
         )
     

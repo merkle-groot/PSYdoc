@@ -6,6 +6,7 @@ import ERC721Contract from "../contracts/NFTokenMetadataDoc.json";
 import "../screens-styling/Sign.css";
   
 const Sign = (props) => {
+	let netId;
     const [selectedFile, setSelectedFile] = useState();
 	const [isSelected, setIsSelected] = useState(false);
   	const [hashedFile, setHashedFile] = useState('');
@@ -17,6 +18,7 @@ const Sign = (props) => {
 	const [address, setAddress] = useState(null);
     const [tokenHash, setTokenHash] = useState('');
     const [isSame, setIsSame] = useState(null);
+	const [networkID, setNetworkID] = useState('1337');
 
 
 	useEffect(()=>{
@@ -24,14 +26,13 @@ const Sign = (props) => {
 		async function initWeb3(){
 			let web3Instance = await getWeb3();
 			let addressTemp = await getUserAccount(web3Instance);
-			await getContract(web3Instance, addressTemp);
+			await getContract(web3Instance, addressTemp, netId);
 		}
 		initWeb3();
 		setIsLoading(false);
 	},[])
 
 	const getWeb3 = async () => {
-		console.log(1,"getWeb3");
 		var instance;
 		if (window.ethereum) {
 		  // set up a new provider
@@ -47,8 +48,11 @@ const Sign = (props) => {
 			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
 			instance = new Web3(provider);
 		}
-		console.log(2,"getWeb3");
 		setWeb3(instance);
+		netId = await instance.eth.net.getId()
+		setNetworkID(netId);
+		console.log(netId);
+
 		return instance;
 	}
 
@@ -76,7 +80,7 @@ const Sign = (props) => {
 	};
 
 	const getContract = async (web3Instance,addressTemp) =>{
-		const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[1337]["address"]); 
+		const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[netId]["address"]); 
 		setContract(contractInstance);
 	}
 
@@ -136,6 +140,7 @@ const Sign = (props) => {
 		setIsLoading(true);
 		try{
 			if(inputID === null || hashedFile === ''){
+				setIsLoading(false);
 				alert("Invalid Input");
 				return;
 			}
@@ -172,9 +177,10 @@ const Sign = (props) => {
             
         } catch{
             alert("You haven't been invited to sign the document.");
+			setIsLoading(false);
             // console.error(error);
         }
-		setIsLoading(false);
+		
     }
 
 	if(isLoading){
