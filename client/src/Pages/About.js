@@ -36,7 +36,7 @@ const About = () => {
 					{/* <div className="iamgeArea"> */}
 						<img src={image} className="gifImage" alt="gif"/>
 						<Button outline size="lg"  className="button-block">
-							<Link to ="/home">Get Started!</Link>
+							<Link to ="/">Get Started!</Link>
 						</Button>
 					{/* </div> */}
 				</div>

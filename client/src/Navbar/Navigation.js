@@ -11,17 +11,13 @@ const Navigation = (props) => {
             </div>
             <div className="nav-bar">
                 <ul className="nav-links">
-                    <Link to="/home" className="nav-ind">
+                    <Link to="/" className="nav-ind">
                         <li>Home</li>
                     </Link>
                     
                     <Link to="/dashboard" className="nav-ind">
                         <li>Your Docs</li>
                     </Link>  
-
-                    {/* <Link to="/minted" className="nav-ind"> 
-                        <li>Minted Docs</li>
-                    </Link>      */}
 
                     <Link to="/about" className="nav-ind"> 
                         <li>About</li>
