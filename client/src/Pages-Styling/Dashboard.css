@@ -12,19 +12,32 @@
     border-radius: 1px !important;
     font-family: 'Roboto', sans-serif;
     padding: 0.5em;
-    height: 65vh; 
-    width: 60%; 
+    min-height: 70vh;
+    max-width: 1280px;
+    width: 90%; 
     display: flex;
     flex-direction: column;
 
 }
 
+@media (max-width: 850px) {
+    .card-doc{
+        width: 95%; 
+        height: 75vh;
+        /* flex-direction: column; */
+    }
+    .docButtons{
+        width: 50% !important;
+    }
+}
+
 .docHeadingDashboard{
-    flex: 2;
+    flex: 1;
     padding-top: 1.5em;
     padding-left: 1.5em;
     border: 1px solid #000;
     border-bottom-width: 0px;
+    flex-wrap: wrap;
 }
 
 
@@ -38,11 +51,11 @@
     justify-content: center;
     /* padding: 2em; */
     padding-bottom: 1.5em;
-    padding-top: 1.5em;
+    /* padding-top: 1.5em; */
 }
 
 .docDetails{
-    flex: 5;
+    flex: 8;
     padding: 1.25em;
     padding-bottom: 0em;
     border: 1px solid #000;
@@ -113,13 +126,15 @@
 
 
 .buttonAreaDashboard{
-    flex: 3;
+    flex: 1;
     /* display: inline-block; */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     border: 1px solid #000;
     border-top: 0px;
+    padding: 0em 1em 1em 1em;
+    justify-content: flex-end;
 }
 
 .inputSubmit{
@@ -130,7 +145,7 @@
 }
 
 .inputSubmit > Input {
-    width: 70%;
+    width: 70%center;
 }
 
 .docButtons{

@@ -3,11 +3,23 @@
     border-radius: 1px !important;
     font-family: 'Roboto', sans-serif;
     padding: 0.5em;
-    height: 60vh; 
-    width: 60%; 
+    min-height: 65vh;
+    max-width: 1280px;
+    width: 90%; 
     display: flex;
     flex-direction: column;
 
+}
+
+@media (max-width: 850px) {
+    .card-doc{
+        width: 95%; 
+        height: 75vh;
+        /* flex-direction: column; */
+    }
+    .docButtons{
+        width: 50% !important;
+    }
 }
 
 .sr-only{
@@ -52,7 +64,7 @@
 }
 
 .docButtons{
-    width: 30%;
+    width: 50% im !important;
 }
 
 input[type="file"] {

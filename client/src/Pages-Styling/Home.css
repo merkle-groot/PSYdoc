@@ -1,25 +1,9 @@
 .dashboard{
     display: flex;
     flex: 1;
-    height: 60vh;
+    height: 100%;
+    width: 100%;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
-
-/* .artistName{
-    font-family: 'Roboto', sans-serif;
-    padding-top: 30px;
-    font-size: 25px;
-    font-weight: 100;
-    letter-spacing: 0.1em;
-    text-align: center;
-    color: #121212;
-}
-
-.artistImage{
-    width: 150px;
-    height: 150px;  
-    border-radius: 10px;
-    border-width: 5px;
-} */

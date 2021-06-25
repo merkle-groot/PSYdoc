@@ -26,10 +26,8 @@ const Success = (props) => {
 				</Button>
 			</div>
 				
-			
-
 			<div className="buttonArea">
-				<Button outline  size="lg" color="primary" className="docButtons" onClick={()=> props.beforeScreen()}>Before</Button>
+				<Button outline  size="lg" color="primary" className="docButtons before" onClick={()=> props.beforeScreen()}>Before</Button>
 			</div>
 		
 		</div>

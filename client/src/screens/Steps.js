@@ -16,9 +16,6 @@ const Steps = (props) => {
   	return (
     	<div className="card">
 			<div className="leftText">
-				{/* <div className="heading">
-					<h2>Hello There!</h2>
-				</div> */}
 
 				<div className="mintHeading">
 					<Jumbotron>
@@ -27,13 +24,12 @@ const Steps = (props) => {
 						<hr className="my-2" />
 						<Button  outline className="button-block" color="primary" size="lg" block onClick={()=> props.nextScreen()}>Mint</Button>
 					</Jumbotron>
-					{/* <p>Mint a document and invite singees</p> */}
-					
 				</div>
 
 				<div className="or">
 					<div>(OR)</div>
 				</div>
+
 				<div className="signHeading">
 					<Jumbotron>
 						<h1 className="display-3">SIGN A DOC</h1>
@@ -42,6 +38,7 @@ const Steps = (props) => {
 						<Button  outline className="button-block" color="primary" size="lg" block onClick={()=> goToSign()}>Sign</Button>
 					</Jumbotron>
 				</div>
+				
 			</div>
 			<div className="rightImage">
 				<img className="psy-image" src={psy} alt="logo" /> 
