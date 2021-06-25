@@ -196,7 +196,9 @@ Contributions are what make the open source community such an amazing place to b
 5. Open a Pull Request
 
 
+## Sponsorship
 
+Even though this project will remain open-sourced, you can request new features by sponsoring it. :)
 <!-- LICENSE -->
 ## License
 
