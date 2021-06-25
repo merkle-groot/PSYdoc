@@ -204,7 +204,7 @@ Even though this project will remain open-sourced, you can request new features 
 <!-- LICENSE -->
 ## License
 
-Distributed under the BSD License(4-clause). See `LICENSE` for more information.
+Distributed under the GPL License (aka GNU General Public License v3.0). See `LICENSE` for more information.
 
 
 
