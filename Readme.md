@@ -40,7 +40,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#contracts">Smart Contracts</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#sponsorship">License</a></li>
+    <li><a href="#sponsorship">Sponsorships</a></li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
