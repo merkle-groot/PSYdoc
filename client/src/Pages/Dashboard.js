@@ -48,6 +48,7 @@ const Dashboard = () => {
 		} else if (window.web3) {
 		  	instance = new Web3(window.web3);
 		} else {
+			alert("Please install Metamask to use the app!");
 			// fallback on localhost provider
 			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
 			instance = new Web3(provider);

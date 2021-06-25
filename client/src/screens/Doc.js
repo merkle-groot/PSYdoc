@@ -42,6 +42,7 @@ const Doc = (props) => {
 		  	instance = new Web3(window.web3);
 		} else {
 			// fallback on localhost provider
+			alert("Please install Metamask to use the app!");			
 			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
 			instance = new Web3(provider);
 		}

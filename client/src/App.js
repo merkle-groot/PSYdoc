@@ -5,6 +5,7 @@ import Home from './Pages/Home';
 import About from './Pages/About';
 import Dashboard from './Pages/Dashboard'; 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import "./App.css";
 
 const App = () => {
     return(
