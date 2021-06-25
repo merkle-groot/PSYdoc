@@ -7,7 +7,7 @@
   <h3 align="center">PSYdoc</h3>
 
   <p align="center">
-    A privacy preserving electronic signature protocol on Ethereum
+    A privacy-preserving electronic-signature protocol on Ethereum
     <br />
     <br />
     <a href="https://psydoc.vercel.app/">View Demo</a>
@@ -82,7 +82,8 @@ Not yet...
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these steps.
+Or if you just want to get a demo of the site, [click here](https://psydoc.vercel.app/)
 
 ### Prerequisites
 
