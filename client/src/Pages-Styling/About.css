@@ -4,7 +4,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    
 }
 
 .card-docAbout{
@@ -14,7 +13,7 @@
     padding: 0.5em;
     min-height: 65vh;
     max-width: 1280px;
-    max-height: 1000px;
+    max-height: 800px;
     width: 90%; 
     display: flex;
     flex-direction: column;
@@ -24,11 +23,8 @@
 @media (max-width: 850px) {
     .card{
         width: 95%; 
-        flex-direction: column;
     }
 }
-
-
 
 
 .docHeadingAbout{

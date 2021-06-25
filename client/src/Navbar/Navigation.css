@@ -1,3 +1,12 @@
+@media (max-width: 540px){
+    .nav-ind {
+        font-size: 15px !important;
+    }
+    .logo-image img{
+        width: 200px;
+    }
+}
+
 .logo-image{
     display: flex;
     align-items: center;
@@ -10,22 +19,21 @@
     justify-content: center;
 }
 
-
-
 nav{
     padding-top: 2em;
     padding-bottom: 2em;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-height: 10vh;
     border-radius: 1em;
     color:white;
 }
 
 .nav-links{
-    width:50h;
     border: 1px double #000000;
+    padding-left: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
