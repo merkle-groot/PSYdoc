@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import keccak256 from 'keccak256';
-import { Button, Jumbotron, Table, Spinner, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import { Button, Jumbotron, Table, Spinner, Form, FormGroup, Label, Input, FormText,  Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import Web3 from "web3";
 import ERC721Contract from "../contracts/NFTokenMetadataDoc.json"; 
 import "../screens-styling/Sign.css";
@@ -19,6 +19,12 @@ const Sign = (props) => {
     const [tokenHash, setTokenHash] = useState('');
     const [isSame, setIsSame] = useState(null);
 	const [networkID, setNetworkID] = useState('1337');
+	const [modal, setModal] = useState(false);
+	const [modalHeader, setModalHeader] = useState('Metamask Required');
+	const [modalBody, setModalBody] = useState('This dApp requires Metamask to interact with Ethereum blockchain. Please consider installing Metamask extension on your browser. :)')
+
+	const modalToggle = () => setModal(!modal);
+
 
 
 	useEffect(()=>{
@@ -44,10 +50,7 @@ const Sign = (props) => {
 		} else if (window.web3) {
 		  	instance = new Web3(window.web3);
 		} else {
-			// fallback on localhost provider
-			alert("Please install Metamask to use the app!");
-			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
-			instance = new Web3(provider);
+			modalToggle();
 		}
 		setWeb3(instance);
 		netId = await instance.eth.net.getId()
@@ -73,7 +76,7 @@ const Sign = (props) => {
 				console.error(error);
 			}
 		} else {
-			alert("Metamask extensions not detected!");
+			return;
 		}
 
 		console.log(3,"getUser",userAddress);
@@ -81,8 +84,12 @@ const Sign = (props) => {
 	};
 
 	const getContract = async (web3Instance,addressTemp) =>{
-		const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[netId]["address"]); 
-		setContract(contractInstance);
+		try{		
+			const contractInstance = new web3Instance.eth.Contract(ERC721Contract.abi,ERC721Contract.networks[netId]["address"]); 
+			setContract(contractInstance);
+		} catch(e){
+			console.error(e)
+		}
 	}
 
     const goBack = () => {
@@ -142,8 +149,10 @@ const Sign = (props) => {
 		try{
 			if(inputID === null || hashedFile === ''){
 				setIsLoading(false);
-				alert("Invalid Input");
-				return;
+				setModalHeader('Invalid Input :(');
+				setModalBody('Please select the right file or tokenID!');
+				modalToggle();
+					return;
 			}
 			const res = await contract.methods.tokenURI(inputID).call();
 			setTokenHash(res);  
@@ -177,9 +186,9 @@ const Sign = (props) => {
 			props.nextScreen();
             
         } catch{
-            alert("You haven't been invited to sign the document.");
-			setIsLoading(false);
-            // console.error(error);
+            setModalHeader('Transaction Failed :(');
+			setModalBody('Make sure you have test Ethers in you wallet and you are on the right network.');
+			modalToggle();
         }
 		
     }
@@ -252,6 +261,17 @@ const Sign = (props) => {
 				<div className="buttonArea">
 					<Button outline  size="lg"  color="primary" className="docButtons" onClick={()=> goBack()}>Previous</Button>
 					<Button outline  size="lg" color="primary" className="docButtons" disabled={disabled} onClick={()=>handleSubmission()}>Sign It!</Button>
+				</div>
+				<div>
+					<Modal isOpen={modal} toggle={modalToggle}>
+						<ModalHeader toggle={modalToggle}>{modalHeader}</ModalHeader>
+						<ModalBody>
+							{modalBody}
+						</ModalBody>
+						<ModalFooter>
+						<Button color="primary" onClick={modalToggle}>Close</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
 			</div>
 		);

@@ -71,9 +71,12 @@ module.exports = {
     },
     mumbai: {
       provider: function() {
-        return new HDWalletProvider(process.env.mnemonic, process.env.urlMumbai);
+        return new HDWalletProvider(process.env.mnemonic, 'https://rpc-mumbai.maticvigil.com');
       },
-      network_id: '80001',
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 2000,
+      skipDryRun: true
     },
     kovan: {
       provider: function() {

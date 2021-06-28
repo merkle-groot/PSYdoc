@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://psydoc.vercel.app/">
     <img src="./client/public/logo192.png" alt="Logo" width="80" height="80">
@@ -57,7 +56,7 @@ PSYdocs allows for **pseudonymous signing of documents** on the Ethereum network
 
 *How does it work?*
 
-**Each document is hashed locally on your browser** and the resulting hash is sent to the PSYdoc's smart-contract, where it is **minted as an NFT**. It has all the features of ERC-721 standand, which means that it can change hands just like any other **NFT**.
+**Each document is [hashed](https://www.freecodecamp.org/news/what-is-hashing/) locally on your browser** and the resulting hash is sent to the PSYdoc's [smart-contract](https://ethereum.org/en/developers/docs/smart-contracts/), where it is **[minted as an NFT](https://www.reddit.com/r/NFT/comments/kw8tu3/what_are_nfts_how_to_mint_an_nft_why_are_nfts/)**. It has all the features of [ERC-721 standard](http://erc721.org/), which means that it can change hands just like any other **NFT**.
 
 The person who mints the NFT becomes the owner of it and their address is automatically added to the **list of signees**. They in turn can invite other addresses to sign the document/ NFT by **inviting them through the smart-contract**. After an address is invited, they can easily sign the document.
 
@@ -205,6 +204,4 @@ Even though this project will remain open-sourced, you can request new features 
 ## License
 
 Distributed under the GPL License (aka GNU General Public License v3.0). See `LICENSE` for more information.
-
-
 

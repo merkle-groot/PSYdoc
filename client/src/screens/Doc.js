@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import keccak256 from 'keccak256'
 import "../screens-styling/Doc.css";
-import { Button, Jumbotron, Table, Spinner } from 'reactstrap';
+import { Button, Jumbotron, Table, Spinner, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import ERC721Contract from "../contracts/NFTokenMetadataDoc.json"; 
 import Web3 from "web3";
 
@@ -17,6 +17,11 @@ const Doc = (props) => {
 	const [address, setAddress] = useState(null);
 	const [contract, setContract] = useState(null);
 	const [networkID, setNetworkID] = useState('1337');
+	const [modal, setModal] = useState(false);
+	const [modalHeader, setModalHeader] = useState('Metamask Required');
+	const [modalBody, setModalBody] = useState('This dApp requires Metamask to interact with Ethereum blockchain. Please consider installing Metamask extension on your browser. :)')
+
+	const modalToggle = () => setModal(!modal);
 
   
 	useEffect(()=>{
@@ -41,10 +46,8 @@ const Doc = (props) => {
 		} else if (window.web3) {
 		  	instance = new Web3(window.web3);
 		} else {
-			// fallback on localhost provider
-			alert("Please install Metamask to use the app!");			
-			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
-			instance = new Web3(provider);
+			modalToggle();
+			return;
 		}
 		setWeb3(instance);
 		netId = await instance.eth.net.getId()
@@ -67,7 +70,7 @@ const Doc = (props) => {
 				console.error(error);
 			}
 		} else {
-			alert("Metamask extensions not detected!");
+			return;
 		}
 		return userAddress;
 	};
@@ -143,7 +146,9 @@ const Doc = (props) => {
 			props.nextScreen();
 		}
 		catch{
-			alert("Looks like the transaction failed :(\n Make sure you are using Metamask with test ethers.");
+			setModalHeader('Transaction Failed :(');
+			setModalBody('Make sure you have test Ethers in you wallet and you are on the right network.');
+			modalToggle();
 			setIsLoading(false);
 		}
 		
@@ -210,6 +215,17 @@ const Doc = (props) => {
 				<div className="buttonArea">
 					<Button outline  size="lg"  color="primary" className="docButtons" onClick={()=> props.beforeScreen()}>Previous</Button>
 					<Button outline  size="lg" color="primary" className="docButtons" onClick={()=> handleSubmission()} disabled={disabled}>Submit</Button>
+				</div>
+				<div>
+					<Modal isOpen={modal} toggle={modalToggle}>
+						<ModalHeader toggle={modalToggle}>{modalHeader}</ModalHeader>
+						<ModalBody>
+							{modalBody}
+						</ModalBody>
+						<ModalFooter>
+						<Button color="primary" onClick={modalToggle}>Close</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
 			</div>
 		);

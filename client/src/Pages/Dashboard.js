@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ERC721Contract from "../contracts/NFTokenMetadataDoc.json"; 
-import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Spinner} from 'reactstrap';
+import { Jumbotron, Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Spinner,  Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 import "../Pages-Styling/Dashboard.css"
 import Web3 from "web3";
 
@@ -22,6 +22,11 @@ const Dashboard = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [disabled, setIsDisabled] = useState(true);
 	const [networkID, setNetworkID] = useState('1337');
+	const [modal, setModal] = useState(false);
+	const [modalHeader, setModalHeader] = useState('Metamask Required');
+	const [modalBody, setModalBody] = useState('This dApp requires Metamask to interact with Ethereum blockchain. Please consider installing Metamask extension on your browser. :)')
+
+	const modalToggle = () => setModal(!modal);
 	
 	const toggle = () => setDropdownOpen(prevState => !prevState);
   	// let web3 = useWeb3();
@@ -48,10 +53,8 @@ const Dashboard = () => {
 		} else if (window.web3) {
 		  	instance = new Web3(window.web3);
 		} else {
-			alert("Please install Metamask to use the app!");
-			// fallback on localhost provider
-			const provider = new Web3.provider.HttpProvider("http://127.0.0.1:8545");
-			instance = new Web3(provider);
+			modalToggle();
+			return;
 		}
 		setWeb3(instance);
 		netId = await instance.eth.net.getId()
@@ -75,7 +78,7 @@ const Dashboard = () => {
 				console.error(error);
 			}
 		} else {
-			alert("Metamask extensions not detected!");
+			return;
 		}
 
 		return userAddress;
@@ -135,7 +138,6 @@ const Dashboard = () => {
 			console.log(signees);
 			setTokenSignees(signees);
 		} catch(e){
-			alert("wrong input")
 			console.error(e);
 		}
 		setIsLoading(false);
@@ -144,7 +146,9 @@ const Dashboard = () => {
 	const handleSubmission = async() => {
 		if((inviteeAddress.length !== 42) || (inviteeAddress.slice(0,2) !== '0x')){
 			console.log(inviteeAddress.length, inviteeAddress.slice(0,2));
-			alert('Invalid address!');
+			setModalHeader('Invalid Ethereum Address!');
+			setModalBody('Please enter a valid Ethereum address.');
+			modalToggle();
 			return;
 		}
 		try{
@@ -160,7 +164,9 @@ const Dashboard = () => {
 			console.log(res);
 			getTokenDetails(lastClicked);
 		} catch(e){
-			alert('Invalid address!');
+			setModalHeader('Transaction Failed :(');
+			setModalBody('Make sure you have test Ethers in you wallet and you are on the right network.');
+			modalToggle();
 			console.error(e);
 		}
 		setInviteeAddress('');
@@ -271,6 +277,17 @@ const Dashboard = () => {
 							<Button size="md" color="primary" className="docButtons" disabled={disabled} onClick={()=>handleSubmission()}>Invite</Button>
 						</div>
 					</div>
+				</div>
+				<div>
+					<Modal isOpen={modal} toggle={modalToggle}>
+						<ModalHeader toggle={modalToggle}>{modalHeader}</ModalHeader>
+						<ModalBody>
+							{modalBody}
+						</ModalBody>
+						<ModalFooter>
+						<Button color="primary" onClick={modalToggle}>Close</Button>
+						</ModalFooter>
+					</Modal>
 				</div>
 			</div>
 		);
