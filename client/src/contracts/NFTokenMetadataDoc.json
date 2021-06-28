@@ -34054,10 +34054,16 @@
       "links": {},
       "address": "0xf2944e8a6CB7EEeF75F67765f6f0DcE609870C6F",
       "transactionHash": "0x74f3f914da61542157171e4df990b5bac08b9e9e724f3188d3bbde645cd9e2b7"
+    },
+    "80001": {
+      "events": {},
+      "links": {},
+      "address": "0xbe01D46a862ce3973625b24470e0f17FC3745271",
+      "transactionHash": "0xfa89a6c50d6b619b8311cdbb9f1a34fd2277157393a00afa1b2063babae1693e"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-22T14:51:23.771Z",
+  "updatedAt": "2021-06-28T13:16:39.977Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "This is an example contract implementation of NFToken with metadata extension.",

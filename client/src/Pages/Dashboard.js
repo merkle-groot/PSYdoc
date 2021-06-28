@@ -7,7 +7,7 @@ import Web3 from "web3";
   
 const Dashboard = () => {
 	let netId;
-	// const { balance, address, message, setAddress, setBalance } = useStoreApi();
+	const supportedIds = [3,4,5,80001];
 	const [noOfMinted, setNoOfMinted] = useState(0);
 	const [web3, setWeb3] = useState(null);
 	const [contract, setContract] = useState(null);
@@ -57,7 +57,13 @@ const Dashboard = () => {
 			return;
 		}
 		setWeb3(instance);
-		netId = await instance.eth.net.getId()
+		netId = await instance.eth.net.getId();
+		if(!supportedIds.includes(netId)){
+			setModalHeader('Wrong Netword ID!');
+			setModalBody('Switch your Metamask network to either Goerli, Ropsten, Rinkeby or Polygon Mumbai Testnet.');
+			modalToggle();
+		}
+		console.log(netId);
 		setNetworkID(netId);
 		console.log('getWeb3',instance)
 		return instance;
@@ -73,7 +79,6 @@ const Dashboard = () => {
 				userAddress = await accounts[0];
 				console.log(accounts);
 				setAddress(accounts[0]);
-				console.log(2,"getUser");
 			} catch (error) {
 				console.error(error);
 			}
@@ -165,7 +170,7 @@ const Dashboard = () => {
 			getTokenDetails(lastClicked);
 		} catch(e){
 			setModalHeader('Transaction Failed :(');
-			setModalBody('Make sure you have test Ethers in you wallet and you are on the right network.');
+			setModalBody('Please try again!');
 			modalToggle();
 			console.error(e);
 		}
@@ -279,7 +284,7 @@ const Dashboard = () => {
 					</div>
 				</div>
 				<div>
-					<Modal isOpen={modal} toggle={modalToggle}>
+					<Modal isOpen={modal} toggle={toggle}>
 						<ModalHeader toggle={modalToggle}>{modalHeader}</ModalHeader>
 						<ModalBody>
 							{modalBody}
