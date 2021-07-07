@@ -48,6 +48,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+**Donate** : [Paypal](https://paypal.me/punkster21) | [ko-fi](https://ko-fi.com/punkster21)
 
 ![PSYdoc](./readme-src/screen1.png)
 *What is PSYdoc?*
@@ -68,7 +69,7 @@ The person who mints the NFT becomes the owner of it and their address is automa
 
 *Is it legal binding?*
 
-Not yet...
+Since the user mints/signs the document under their own volition, it can be argued in a court of law that the signature is legally binding. (Not a legal advise)
 
 ---
 ### Built With
