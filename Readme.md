@@ -9,7 +9,9 @@
     A privacy-preserving electronic-signature protocol on Ethereum
     <br />
     <br />
-    <a href="https://psydoc.vercel.app/">View Demo</a>
+    <a href="https://psydoc.vercel.app/">Launch App</a>
+    .
+    <a href="https://youtu.be/NLAca33Obns">Video Demo</a>
     ·
     <a href="https://github.com/merkle-groot/PSYdoc/issues">Report Bug</a>
     ·
@@ -48,7 +50,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-**Donate** : [Paypal](https://paypal.me/punkster21) | [ko-fi](https://ko-fi.com/punkster21)
+**Donate** : [Paypal](https://paypal.me/punkster21) | [ko-fi](https://ko-fi.com/punkster21) </br>
+**Video Demo** : [YouTube Link](https://youtu.be/NLAca33Obns) 
 
 ![PSYdoc](./readme-src/screen1.png)
 *What is PSYdoc?*
@@ -148,6 +151,8 @@ npm start
 ---
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+>> Video Demo: [Youtube Link](https://youtu.be/NLAca33Obns)
 
 ### 1. Minting a document as NFT.
 * Select the file
